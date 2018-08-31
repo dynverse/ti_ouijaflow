@@ -12,6 +12,7 @@ From: dynverse/dynwrap:py3.6
 
 %post
     chmod -R a+r /code
+    chmod a+x /code
     pip install git+https://github.com/kieranrcampbell/ouijaflow.git --upgrade --upgrade-strategy only-if-needed
     pip install tensorflow==1.6 # temporary fix for edward https://github.com/blei-lab/edward/issues/882
 

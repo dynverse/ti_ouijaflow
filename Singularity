@@ -8,9 +8,10 @@ Bootstrap: shub
 From: dynverse/dynwrap:py3.6
 
 %labels
-    version 0.1.0
+    version 0.1.1
 
 %post
+    chmod -R a+r /code
     pip install git+https://github.com/kieranrcampbell/ouijaflow.git --upgrade --upgrade-strategy only-if-needed
     pip install tensorflow==1.6 # temporary fix for edward https://github.com/blei-lab/edward/issues/882
 

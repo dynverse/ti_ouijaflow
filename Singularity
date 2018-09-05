@@ -10,14 +10,13 @@ From: dynverse/dynwrap:py3.6
 %labels
     version 0.1.1
 
-%post
-    chmod -R a+r /code
-    chmod a+x /code
-    pip install git+https://github.com/kieranrcampbell/ouijaflow.git --upgrade --upgrade-strategy only-if-needed
-    pip install tensorflow==1.6 # temporary fix for edward https://github.com/blei-lab/edward/issues/882
-
 %files
     . /code
+
+%post
+    chmod -R 755 '/code'
+    pip install git+https://github.com/kieranrcampbell/ouijaflow.git --upgrade --upgrade-strategy only-if-needed
+    pip install tensorflow==1.6 
 
 %runscript
     exec python /code/run.py

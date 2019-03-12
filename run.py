@@ -1,4 +1,12 @@
-import json
+#!/usr/local/bin/python
+
+import dynclipy
+task = dynclipy.main()
+task = dynclipy.main(
+  ["--dataset", "/code/example.h5", "--output", "/mnt/output"],
+  "/code/definition.yml"
+)
+
 import pandas as pd
 from ouijaflow import ouija
 
@@ -7,8 +15,8 @@ checkpoints = {}
 
 #   ____________________________________________________________________________
 #   Load data                                                               ####
-expression = pd.read_csv("/ti/input/expression.csv", index_col=[0])
-p = json.load(open("/ti/input/params.json", "r"))
+expression = task["expression"]
+p = task["params"]
 
 checkpoints["method_afterpreproc"] = time.time()
 
@@ -24,17 +32,17 @@ checkpoints["method_aftermethod"] = time.time()
 
 #   ____________________________________________________________________________
 #   Process output & save                                                   ####
-# pseudotime
-cell_ids = pd.DataFrame({
-  "cell_ids": expression.index
-})
-cell_ids.to_csv("/ti/output/cell_ids.csv", index=False)
 
+dataset = dynclipy.wrap_data(cell_ids = expression.index)
+
+# pseudotime
 pseudotime = pd.DataFrame({
   "pseudotime": z,
   "cell_id": expression.index
 })
-pseudotime.to_csv("/ti/output/pseudotime.csv", index=False)
+dataset.add_linear_trajectory(pseudotime = pseudotime)
 
 # timings
-json.dump(checkpoints, open("/ti/output/timings.json", "w"))
+dataset.add_timings(timings = checkpoints)
+
+dataset.write_output(task["output"])

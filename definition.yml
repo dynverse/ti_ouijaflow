@@ -1,42 +1,41 @@
-id: ouijaflow
-docker_repository: dynverse/ti_ouijaflow
-singularity_collection: 1559
-container_url: https://github.com/dynverse/ti_ouijaflow
-name: ouijaflow
-source: tool
-platform: Python
+method:
+  id: ouijaflow
+  name: ouijaflow
+  source: tool
+  platform: Python
+  url: https://github.com/kieranrcampbell/ouija
+  license: GPL (>=3)
+  authors:
+  - given: Kieran
+    family: Campbell
+    email: kicampbell@bccrc.ca
+    github: kieranrcampbell
+  - given: Christopher
+    family: Yau
+    email: cyau@well.ox.ac.uk
+
+manuscript:
+  doi: 10.1101/060442
+  google_scholar_cluster_id: '5009450964277600738'
+  preprint_date: '2016-06-23'
+
+container:
+  url: https://github.com/dynverse/ti_ouijaflow
+  docker: dynverse/ti_ouijaflow
+
+wrapper:
+  type: linear_trajectory
+  topology_inference: fixed
+  trajectory_types: linear
+  input_required: expression
+  input_optional: features_id
+
 parameters:
-  iter:
+  - id: iter
     type: integer
-    lower: 2
-    upper: 50000
+    distribution:
+      type: expuniform
+      lower: 2
+      upper: 50000
     default: 1000
-    distribution: expuniform
-input:
-  format: text
-  required:
-  - expression
-  optional:
-  - features_id
-output:
-  format: text
-  outputs:
-  - linear_trajectory
-  - timings
-wrapper_type: linear_trajectory
-doi: 10.1101/060442
-google_scholar_cluster_id: '5009450964277600738'
-trajectory_types:
-- linear
-topology_inference: fixed
-license: GPL (>=3)
-authors:
-- given: Kieran
-  family: Campbell
-  email: kicampbell@bccrc.ca
-  github: kieranrcampbell
-- given: Christopher
-  family: Yau
-  email: cyau@well.ox.ac.uk
-preprint_date: '2016-06-23'
-code_url: https://github.com/kieranrcampbell/ouija
+

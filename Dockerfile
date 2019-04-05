@@ -1,9 +1,10 @@
-FROM dynverse/dynwrap:py3.6
+FROM dynverse/dynwrappy36:v0.1.0
 
-RUN pip install git+https://github.com/kieranrcampbell/ouijaflow.git --upgrade --upgrade-strategy only-if-needed
-RUN pip install tensorflow==1.6 # temporary fix for edward https://github.com/blei-lab/edward/issues/882
+ARG GITHUB_PAT
 
-LABEL version 0.1.4
+RUN pip install https://storage.googleapis.com/tensorflow/linux/cpu/tensorflow-1.7.0-cp36-cp36m-linux_x86_64.whl && \
+    pip install git+https://github.com/kieranrcampbell/ouijaflow.git --upgrade --upgrade-strategy only-if-needed
 
-ADD . /code
-ENTRYPOINT python /code/run.py
+COPY definition.yml run.py example.sh /code/
+
+ENTRYPOINT ["/code/run.py"]
